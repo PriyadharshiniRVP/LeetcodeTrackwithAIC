@@ -1,75 +1,51 @@
 package com.priya.leetcodetrackwithai.Controller;
 
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.priya.leetcodetrackwithai.model.LeetcodeStats;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.hc.client5.http.fluent.Request;
+import org.json.JSONObject;
 
 public class DashboardController {
 
-    @FXML
-    private Label easyLabel;
+    @FXML private TableView<LeetcodeStats> tableView;
+    @FXML private TableColumn<LeetcodeStats, String> labelColumn;
+    @FXML private TableColumn<LeetcodeStats, String> valueColumn;
 
     @FXML
-    private Label mediumLabel;
-
-    @FXML
-    private Label hardLabel;
-
     public void initialize() {
+        labelColumn.setCellValueFactory(new PropertyValueFactory<>("label"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        tableView.setItems(fetchLiveStats("PriyadharshiniRV")); // Replace with your LeetCode username
+    }
+
+    private ObservableList<LeetcodeStats> fetchLiveStats(String username) {
+        ObservableList<LeetcodeStats> stats = FXCollections.observableArrayList();
+
         try {
-            String username = "PriyadharshiniRV"; // 👈 Your LeetCode username
-            String query = "{ \"query\": \"query { matchedUser(username: \\\"" + username + "\\\") { submitStats { acSubmissionNum { difficulty count } } } }\" }";
+            String url = "https://leetcode-api-faisalshohag.vercel.app/user/" + username;
+            String response = Request.get(url).execute().returnContent().asString();
+            JSONObject json = new JSONObject(response).getJSONObject("user");
 
-            URL url = new URL("https://leetcode.com/graphql");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setDoOutput(true);
-
-            try (OutputStream os = conn.getOutputStream()) {
-                os.write(query.getBytes());
-            }
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
-
-            JSONObject json = new JSONObject(response.toString());
-            JSONArray stats = json.getJSONObject("data")
-                    .getJSONObject("matchedUser")
-                    .getJSONObject("submitStats")
-                    .getJSONArray("acSubmissionNum");
-
-            int easy = 0, medium = 0, hard = 0;
-            for (int i = 0; i < stats.length(); i++) {
-                JSONObject obj = stats.getJSONObject(i);
-                switch (obj.getString("difficulty")) {
-                    case "Easy": easy = obj.getInt("count"); break;
-                    case "Medium": medium = obj.getInt("count"); break;
-                    case "Hard": hard = obj.getInt("count"); break;
-                }
-            }
-
-            easyLabel.setText("Easy: " + easy);
-            mediumLabel.setText("Medium: " + medium);
-            hardLabel.setText("Hard: " + hard);
+            stats.add(new LeetcodeStats("Total Solved", String.valueOf(json.getInt("totalSolved"))));
+            stats.add(new LeetcodeStats("Easy Solved", String.valueOf(json.getInt("easySolved"))));
+            stats.add(new LeetcodeStats("Medium Solved", String.valueOf(json.getInt("mediumSolved"))));
+            stats.add(new LeetcodeStats("Hard Solved", String.valueOf(json.getInt("hardSolved"))));
+            stats.add(new LeetcodeStats("Ranking", String.valueOf(json.getInt("ranking"))));
+            stats.add(new LeetcodeStats("Contribution Points", String.valueOf(json.getInt("contributionPoints"))));
 
         } catch (Exception e) {
-            easyLabel.setText("Error fetching stats");
-            mediumLabel.setText("");
-            hardLabel.setText("");
+            stats.add(new LeetcodeStats("Error", "Unable to fetch data"));
             e.printStackTrace();
         }
+
+        return stats;
     }
 }
-

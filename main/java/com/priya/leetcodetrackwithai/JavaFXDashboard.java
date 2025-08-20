@@ -1,17 +1,23 @@
 package com.priya.leetcodetrackwithai;
 
+
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class JavaFXDashboard extends Application {
-    public static void main(String[] args) {
-        launch(args); // This triggers the JavaFX lifecycle
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/dashboard.fxml"));
+        primaryStage.setTitle("LeetCode Tracker");
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.show();
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        // Your UI setup here
-        primaryStage.setTitle("LeetCode Tracker");
-        primaryStage.show();
+    public static void main(String[] args) {
+        launch(args);
     }
 }

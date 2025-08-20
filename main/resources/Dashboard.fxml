@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.yourapp.controller.DashboardController"
-            prefWidth="400" prefHeight="200">
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-    <Label fx:id="easyLabel" layoutX="50" layoutY="50" text="Easy: " />
-    <Label fx:id="mediumLabel" layoutX="50" layoutY="80" text="Medium: " />
-    <Label fx:id="hardLabel" layoutX="50" layoutY="110" text="Hard: " />
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.priya.leetcodetrackwithai.Controller.DashboardController"
+            prefWidth="400" prefHeight="300">
 
+    <TableView fx:id="tableView" layoutX="20" layoutY="20" prefWidth="360" prefHeight="260">
+        <columns>
+            <TableColumn fx:id="labelColumn" text="Metric" prefWidth="180"/>
+            <TableColumn fx:id="valueColumn" text="Value" prefWidth="180"/>
+        </columns>
+    </TableView>
 </AnchorPane>
