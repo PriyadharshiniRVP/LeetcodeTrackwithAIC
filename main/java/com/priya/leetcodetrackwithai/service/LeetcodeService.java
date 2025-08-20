@@ -7,7 +7,7 @@ import org.json.*;
 public class LeetcodeService {
 
     public JSONObject fetchStats(String username) throws IOException {
-        String query = "{ \"query\": \"query { matchedUser(username: \\\"" + username + "\\\") { submitStats { acSubmissionNum { difficulty count } } } }\" }";
+        String query = "{ \"query\": \"query { matchedUser(username: \\\"" + "PriyadharshiniRV" + "\\\") { submitStats { acSubmissionNum { difficulty count } } } }\" }";
 
         URL url = new URL("https://leetcode.com/graphql");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

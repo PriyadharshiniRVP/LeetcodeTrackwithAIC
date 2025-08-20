@@ -1,21 +1,30 @@
 package com.priya.leetcodetrackwithai.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class LeetcodeStats {
-    private String problem;
-    private String status;
+    private final StringProperty label;
+    private final StringProperty value;
 
-    public LeetcodeStats(String problem, String status) {
-        this.problem = problem;
-        this.status = status;
+    public LeetcodeStats(String label, String value) {
+        this.label = new SimpleStringProperty(label);
+        this.value = new SimpleStringProperty(value);
     }
 
-    public String getProblem() {
-        return problem;
+    public String getLabel() {
+        return label.get();
     }
 
-    public String getStatus() {
-        return status;
+    public String getValue() {
+        return value.get();
+    }
+
+    public StringProperty labelProperty() {
+        return label;
+    }
+
+    public StringProperty valueProperty() {
+        return value;
     }
 }
-
