@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.yourapp.controller.DashboardController"
+            prefWidth="400" prefHeight="200">
+
+    <Label fx:id="easyLabel" layoutX="50" layoutY="50" text="Easy: " />
+    <Label fx:id="mediumLabel" layoutX="50" layoutY="80" text="Medium: " />
+    <Label fx:id="hardLabel" layoutX="50" layoutY="110" text="Hard: " />
+
+</AnchorPane>
