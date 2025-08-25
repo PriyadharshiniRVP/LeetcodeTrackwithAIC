@@ -1,21 +1,46 @@
 package com.priya.leetcodetrackwithai.service;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import com.priya.leetcodetrackwithai.model.LeetcodeStats;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.priya.leetcodetrackwithai.model.LeetcodeStats;
+
+@Service
 public class LeetCodeFetcher {
 
-    public static JSONObject fetchStats(String username) throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
+    public LeetcodeStats fetchStats(String username) {
+        String graphqlQuery = "{ \"query\": \"query getUserProfile($username: String!) { matchedUser(username: \\\"" + username + "\\\") { submitStats { acSubmissionNum { difficulty count } } } }\", \"variables\": { \"username\": \\\"" + username + "\\\" } }";
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://leetcode-stats-api.herokuapp.com/" + username))
-                .build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return new JSONObject(response.body());
+        HttpEntity<String> entity = new HttpEntity<>(graphqlQuery, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity("https://leetcode.com/graphql", entity, String.class);
+
+        JSONObject obj = new JSONObject(response.getBody());
+        JSONArray statsArray = obj.getJSONObject("data")
+                .getJSONObject("matchedUser")
+                .getJSONObject("submitStats")
+                .getJSONArray("acSubmissionNum");
+
+        int easy = 0, medium = 0, hard = 0;
+        for (int i = 0; i < statsArray.length(); i++) {
+            JSONObject stat = statsArray.getJSONObject(i);
+            String difficulty = stat.getString("difficulty");
+            int count = stat.getInt("count");
+
+            switch (difficulty) {
+                case "Easy": easy = count; break;
+                case "Medium": medium = count; break;
+                case "Hard": hard = count; break;
+            }
+        }
+
+        return new LeetcodeStats(easy + medium + hard, easy, medium, hard);
     }
 }

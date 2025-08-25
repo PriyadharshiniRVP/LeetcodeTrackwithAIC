@@ -1,22 +1,32 @@
 package com.priya.leetcodetrackwithai.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class LeetcodeStats {
-    private final StringProperty key;
-    private final StringProperty value;
+    private int totalSolved;
+    private int easySolved;
+    private int mediumSolved;
+    private int hardSolved;
 
-    public LeetcodeStats(String key, String value) {
-        this.key = new SimpleStringProperty(key);
-        this.value = new SimpleStringProperty(value);
+    // No-arg constructor
+    public LeetcodeStats() {}
+
+    // All-arg constructor
+    public LeetcodeStats(int totalSolved, int easySolved, int mediumSolved, int hardSolved) {
+        this.totalSolved = totalSolved;
+        this.easySolved = easySolved;
+        this.mediumSolved = mediumSolved;
+        this.hardSolved = hardSolved;
     }
 
-    public StringProperty keyProperty() {
-        return key;
-    }
+    // Getters and setters
+    public int getTotalSolved() { return totalSolved; }
+    public void setTotalSolved(int totalSolved) { this.totalSolved = totalSolved; }
 
-    public StringProperty valueProperty() {
-        return value;
-    }
+    public int getEasySolved() { return easySolved; }
+    public void setEasySolved(int easySolved) { this.easySolved = easySolved; }
+
+    public int getMediumSolved() { return mediumSolved; }
+    public void setMediumSolved(int mediumSolved) { this.mediumSolved = mediumSolved; }
+
+    public int getHardSolved() { return hardSolved; }
+    public void setHardSolved(int hardSolved) { this.hardSolved = hardSolved; }
 }
