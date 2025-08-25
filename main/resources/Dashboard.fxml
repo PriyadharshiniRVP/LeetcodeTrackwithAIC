@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.priya.leetcodetrackwithai.Controller.DashboardController"
-            prefWidth="400" prefHeight="300">
-
-    <TableView fx:id="tableView" layoutX="20" layoutY="20" prefWidth="360" prefHeight="260">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.priya.leetcodetrackwithai.Controller.DashboardController" prefWidth="750" prefHeight="350">
+    <TableView fx:id="tableView" layoutX="20" layoutY="20" prefWidth="380" prefHeight="250">
         <columns>
-            <TableColumn fx:id="labelColumn" text="Metric" prefWidth="180"/>
-            <TableColumn fx:id="valueColumn" text="Value" prefWidth="180"/>
+            <TableColumn fx:id="keyColumn" text="Metric" prefWidth="190"/>
+            <TableColumn fx:id="valueColumn" text="Value" prefWidth="190"/>
         </columns>
     </TableView>
+
+    <PieChart fx:id="progressChart" layoutX="420" layoutY="20" prefWidth="300" prefHeight="260"/>
+
+    <Label fx:id="insightLabel" layoutX="20" layoutY="290" prefWidth="400" wrapText="true"/>
+
+    <Button text="Refresh Stats" layoutX="150" layoutY="320" onAction="#refreshStats"/>
 </AnchorPane>

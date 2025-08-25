@@ -4,24 +4,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class LeetcodeStats {
-    private final StringProperty label;
+    private final StringProperty key;
     private final StringProperty value;
 
-    public LeetcodeStats(String label, String value) {
-        this.label = new SimpleStringProperty(label);
+    public LeetcodeStats(String key, String value) {
+        this.key = new SimpleStringProperty(key);
         this.value = new SimpleStringProperty(value);
     }
 
-    public String getLabel() {
-        return label.get();
-    }
-
-    public String getValue() {
-        return value.get();
-    }
-
-    public StringProperty labelProperty() {
-        return label;
+    public StringProperty keyProperty() {
+        return key;
     }
 
     public StringProperty valueProperty() {
